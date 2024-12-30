@@ -1,8 +1,8 @@
-region: "ap-southeast-1"
-instance_type: "t2.micro"
-image: "ami-06650ca7ed78ff6fa"
-vpc_id: "vpc-0e618698bbfa4ff91"
-subnet_id: "subnet-020cb3fa62e38cb07"
-security_group_id: "sg-07d01c4aa4a3000fb"
-keypair: "MyKeyPair"
-instance_name: "AWSSGL001"
+image: ami-06650ca7ed78ff6fa
+instance_name: AWSSGL001
+instance_type: t2.micro
+keypair: MyKeyPair
+region: ap-southeast-1
+security_group_id: sg-07d01c4aa4a3000fb
+subnet_id: subnet-020cb3fa62e38cb07
+vpc_id: vpc-0e618698bbfa4ff91
