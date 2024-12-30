@@ -1,0 +1,26 @@
+---
+- name: Launch EC2 instance in AWS
+  hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars.yml
+
+  tasks:
+    - name: Launch an EC2 instance
+      amazon.aws.ec2_instance:
+        name: "{{ instance_name }}"
+        key_name: "{{ keypair }}"
+        instance_type: "{{ instance_type }}"
+        image_id: "{{ image }}"
+        region: "{{ region }}"
+        security_group: "{{ security_group_id }}"
+        vpc_subnet_id: "{{ subnet_id }}"
+        wait: yes
+        count: 1
+        tags:
+          Name: "{{ instance_name }}"
+      register: ec2
+
+    - name: Show the EC2 instance details
+      debug:
+        var: ec2
