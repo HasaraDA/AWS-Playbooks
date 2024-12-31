@@ -1,5 +1,5 @@
 image: ami-06650ca7ed78ff6fa
-instance_name: AWSSGL006
+instance_name: AWSSGL002
 instance_type: t2.micro
 keypair: MyKeyPair
 region: ap-southeast-1
