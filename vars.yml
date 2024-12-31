@@ -1,4 +1,4 @@
-instance_name: AWSSGL006
+instance_name: AWSSGL001
 image: ami-06650ca7ed78ff6fa
 instance_type: t2.micro
 keypair: MyKeyPair
