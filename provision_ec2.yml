@@ -24,3 +24,16 @@
     - name: Show the EC2 instance details
       debug:
         var: ec2
+
+    - name: Send email notification
+      ansible.builtin.mail:
+        host: localhost
+        port: 25  # Adjust if required by your mail server
+        to: "{{ user_email }}"
+        subject: "EC2 Instance Provisioned: {{ instance_name }}"
+        body: |
+          The EC2 instance "{{ instance_name }}" has been successfully provisioned.
+          Instance Details:
+          - ID: {{ ec2.instances[0].id }}
+          - Public DNS: {{ ec2.instances[0].public_dns_name }}
+          - Region: {{ region }}
