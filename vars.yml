@@ -1,6 +1,6 @@
-instance_name: AWSSGL001
+instance_name: AWSSGL002
 image: ami-06650ca7ed78ff6fa
-instance_type: t2.small
+instance_type: t2.micro
 keypair: MyKeyPair
 region: ap-southeast-1
 security_group_id: sg-07d01c4aa4a3000fb
