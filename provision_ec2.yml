@@ -15,7 +15,7 @@
         region: "{{ region }}"
         security_group: "{{ security_group_id }}"
         vpc_subnet_id: "{{ subnet_id }}"
-        count: "{{ instance_count }}"  # Assuming 'instance_count' is defined
+        count: 1  # Assuming 'instance_count' is defined
         wait: yes
         tags:
           Name: "{{ instance_name }}"
