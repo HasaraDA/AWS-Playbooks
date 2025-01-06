@@ -28,19 +28,19 @@
 
     - name: Set EC2 instance details as environment variables
       set_fact:
-        server_name: "{{ ec2.instances[0].tags.Name }}"
-        ip_address: "{{ ec2.instances[0].private_ip_address }}"
-        instance_type: "{{ ec2.instances[0].instance_type }}"
-        region: "{{ ec2.instances[0].placement.availability_zone }}"
-        image: "{{ ec2.instances[0].image_id }}"
-        keypair: "{{ ec2.instances[0].key_name }}"
+        ec2_server_name: "{{ ec2.instances[0].tags.Name }}"
+        ec2_ip: "{{ ec2.instances[0].private_ip_address }}"
+        ec2_instance_type: "{{ ec2.instances[0].instance_type }}"
+        ec2_region: "{{ ec2.instances[0].placement.availability_zone }}"
+        ec2_image: "{{ ec2.instances[0].image_id }}"
+        ec2_keypair: "{{ ec2.instances[0].key_name }}"
 
     - name: Print EC2 Provisioning Details
       debug:
         msg: |
-          Server Name: {{ server_name }}
-          IP: {{ ip_address }}
-          Instance Type: {{ instance_type }}
-          Region: {{ region }}
-          Image: {{ image }}
-          KeyPair: {{ keypair }}
+          Server Name: {{ ec2_server_name }}
+          IP: {{ ec2_ip }}
+          Instance Type: {{ ec2_instance_type }}
+          Region: {{ ec2_region }}
+          Image: {{ ec2_image }}
+          KeyPair: {{ ec2_keypair }}
