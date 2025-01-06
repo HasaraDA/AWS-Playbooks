@@ -29,7 +29,7 @@
     - name: Set EC2 instance details as environment variables
       set_fact:
         ec2_instances_details: []
-      
+
     - name: Loop through EC2 instances and collect details
       set_fact:
         ec2_instances_details: "{{ ec2_instances_details + [{'server_name': item.tags.Name, 'ip': item.private_ip_address, 'instance_type': item.instance_type, 'region': item.placement.availability_zone, 'image': item.image_id, 'keypair': item.key_name}] }}"
