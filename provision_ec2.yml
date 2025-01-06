@@ -15,6 +15,7 @@
         region: "{{ region }}"
         security_group: "{{ security_group_id }}"
         vpc_subnet_id: "{{ subnet_id }}"
+        associate_public_ip_address: "{{ public_ip_address }}"  # Ensure a public IP is assigned
         wait: yes
         count: "{{ instance_count }}"  # Assuming 'instance_count' is defined
         tags:
@@ -32,7 +33,7 @@
 
     - name: Loop through EC2 instances and collect details
       set_fact:
-        ec2_instances_details: "{{ ec2_instances_details + [{'server_name': item.tags.Name, 'ip': item.private_ip_address, 'instance_type': item.instance_type, 'region': item.placement.availability_zone, 'image': item.image_id, 'keypair': item.key_name}] }}"
+        ec2_instances_details: "{{ ec2_instances_details + [{'server_name': item.tags.Name, 'private_ip': item.private_ip_address, 'public_ip': item.public_ip_address, 'instance_type': item.instance_type, 'region': item.placement.availability_zone, 'image': item.image_id, 'keypair': item.key_name}] }}"
       loop: "{{ ec2.instances }}"
       when: ec2.instances | length > 0
 
@@ -42,7 +43,8 @@
           {% for instance in ec2_instances_details %}
           ---
           Server Name: {{ instance.server_name }}
-          IP: {{ instance.ip }}
+          Private IP: {{ instance.private_ip }}
+          Public IP: {{ instance.public_ip }}
           Instance Type: {{ instance.instance_type }}
           Region: {{ instance.region }}
           Image: {{ instance.image }}
