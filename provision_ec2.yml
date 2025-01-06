@@ -25,3 +25,22 @@
     - name: Show the EC2 instance details
       debug:
         var: ec2
+
+    - name: Set EC2 instance details as environment variables
+      set_fact:
+        server_name: "{{ ec2.instances[0].tags.Name }}"
+        ip_address: "{{ ec2.instances[0].private_ip_address }}"
+        instance_type: "{{ ec2.instances[0].instance_type }}"
+        region: "{{ ec2.instances[0].placement.availability_zone }}"
+        image: "{{ ec2.instances[0].image_id }}"
+        keypair: "{{ ec2.instances[0].key_name }}"
+
+    - name: Print EC2 Provisioning Details
+      debug:
+        msg: |
+          Server Name: {{ server_name }}
+          IP: {{ ip_address }}
+          Instance Type: {{ instance_type }}
+          Region: {{ region }}
+          Image: {{ image }}
+          KeyPair: {{ keypair }}
