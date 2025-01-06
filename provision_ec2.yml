@@ -15,9 +15,11 @@
         region: "{{ region }}"
         security_group: "{{ security_group_id }}"
         vpc_subnet_id: "{{ subnet_id }}"
-        associate_public_ip_address: "{{ public_ip_address }}"  # Ensure a public IP is assigned
         wait: yes
         count: "{{ instance_count }}"  # Assuming 'instance_count' is defined
+        network_interfaces:
+          - associate_public_ip_address: "{{ public_ip_address }}"
+            device_index: 0
         tags:
           Name: "{{ instance_name }}"
           Owner: "{{ user_email }}"
