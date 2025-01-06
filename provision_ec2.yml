@@ -19,6 +19,7 @@
         count: 1
         tags:
           Name: "{{ instance_name }}"
+          Owner: "{{ user_email }}"
       register: ec2
 
     - name: Show the EC2 instance details
