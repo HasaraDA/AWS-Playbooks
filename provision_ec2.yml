@@ -1,12 +1,12 @@
 ---
-- name: Launch EC2 instance in AWS
+- name: Launch EC2 instances in AWS
   hosts: localhost
   gather_facts: no
   vars_files:
     - vars.yml  # Include the external vars file for instance parameters
 
   tasks:
-    - name: Launch an EC2 instance
+    - name: Launch EC2 instances
       amazon.aws.ec2_instance:
         name: "{{ instance_name }}"
         key_name: "{{ keypair }}"
@@ -16,7 +16,7 @@
         security_group: "{{ security_group_id }}"
         vpc_subnet_id: "{{ subnet_id }}"
         wait: yes
-        count: 1
+        count: "{{ instance_count }}"  # Assuming 'instance_count' is defined
         tags:
           Name: "{{ instance_name }}"
           Owner: "{{ user_email }}"
@@ -28,19 +28,22 @@
 
     - name: Set EC2 instance details as environment variables
       set_fact:
-        ec2_server_name: "{{ ec2.instances[0].tags.Name }}"
-        ec2_ip: "{{ ec2.instances[0].private_ip_address }}"
-        ec2_instance_type: "{{ ec2.instances[0].instance_type }}"
-        ec2_region: "{{ ec2.instances[0].placement.availability_zone }}"
-        ec2_image: "{{ ec2.instances[0].image_id }}"
-        ec2_keypair: "{{ ec2.instances[0].key_name }}"
+        ec2_instances_details: []
+      
+    - name: Loop through EC2 instances and collect details
+      set_fact:
+        ec2_instances_details: "{{ ec2_instances_details + [{'server_name': item.tags.Name, 'ip': item.private_ip_address, 'instance_type': item.instance_type, 'region': item.placement.availability_zone, 'image': item.image_id, 'keypair': item.key_name}] }}"
+      loop: "{{ ec2.instances }}"
+      when: ec2.instances | length > 0
 
     - name: Print EC2 Provisioning Details
       debug:
         msg: |
-          Server Name: {{ ec2_server_name }}
-          IP: {{ ec2_ip }}
-          Instance Type: {{ ec2_instance_type }}
-          Region: {{ ec2_region }}
-          Image: {{ ec2_image }}
-          KeyPair: {{ ec2_keypair }}
+          {% for instance in ec2_instances_details %}
+          Server Name: {{ instance.server_name }}
+          IP: {{ instance.ip }}
+          Instance Type: {{ instance.instance_type }}
+          Region: {{ instance.region }}
+          Image: {{ instance.image }}
+          KeyPair: {{ instance.keypair }}
+          {% endfor %}
