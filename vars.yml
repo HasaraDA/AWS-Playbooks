@@ -8,3 +8,4 @@ subnet_id: subnet-020cb3fa62e38cb07
 vpc_id: vpc-0e618698bbfa4ff91
 user_email: hasara.dulanjana.16@gmail.com  # Replace with the recipient's email
 instance_count: 1
+public_ip_address: yes
