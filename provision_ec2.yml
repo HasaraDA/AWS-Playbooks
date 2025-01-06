@@ -1,12 +1,12 @@
 ---
-- name: Launch EC2 instance in AWS
+- name: Launch EC2 instances in AWS
   hosts: localhost
   gather_facts: no
   vars_files:
-    - vars.yml
+    - vars.yml  # Include the external vars file for instance parameters
 
   tasks:
-    - name: Launch an EC2 instance
+    - name: Launch EC2 instances
       amazon.aws.ec2_instance:
         name: "{{ instance_name }}"
         key_name: "{{ keypair }}"
@@ -15,12 +15,40 @@
         region: "{{ region }}"
         security_group: "{{ security_group_id }}"
         vpc_subnet_id: "{{ subnet_id }}"
+        count: "{{ instance_count }}"  # Assuming 'instance_count' is defined
         wait: yes
-        count: 1
         tags:
           Name: "{{ instance_name }}"
+          Owner: "{{ user_email }}"
+        network_interfaces:
+          - assign_public_ip: yes  # Use this to assign a public IP address
+            device_index: 0  # Network interface index
       register: ec2
 
     - name: Show the EC2 instance details
       debug:
         var: ec2
+
+    - name: Set EC2 instance details as environment variables
+      set_fact:
+        ec2_instances_details: []
+
+    - name: Loop through EC2 instances and collect details
+      set_fact:
+        ec2_instances_details: "{{ ec2_instances_details + [{'server_name': item.tags.Name, 'private_ip': item.private_ip_address, 'public_ip': item.public_ip_address, 'instance_type': item.instance_type, 'region': item.placement.availability_zone, 'image': item.image_id, 'keypair': item.key_name}] }}"
+      loop: "{{ ec2.instances }}"
+      when: ec2.instances | length > 0
+
+    - name: Print EC2 Provisioning Details
+      debug:
+        msg: |
+          {% for instance in ec2_instances_details %}
+          ---
+          Server Name: {{ instance.server_name }}
+          Private IP: {{ instance.private_ip }}
+          Public IP: {{ instance.public_ip }}
+          Instance Type: {{ instance.instance_type }}
+          Region: {{ instance.region }}
+          Image: {{ instance.image }}
+          KeyPair: {{ instance.keypair }}
+          {% endfor %}
