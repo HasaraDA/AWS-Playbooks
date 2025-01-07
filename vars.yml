@@ -1,7 +1,7 @@
-user_email: hasara.dulanjana.16@gmail.com
-instance_name: AWSSGL004
+user_email: ashenherath9605@gmail.com
+instance_name: lordashserver
 image: ami-06650ca7ed78ff6fa
-instance_type: t2.micro
+instance_type: t2.medium
 keypair: MyKeyPair
 region: ap-southeast-1
 security_group_id: sg-07d01c4aa4a3000fb
