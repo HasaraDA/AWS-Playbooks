@@ -35,9 +35,6 @@
 
     - name: Loop through EC2 instances and collect details
       set_fact:
-<<<<<<< HEAD
-        ec2_instances_details: "{{ ec2_instances_details + [{'server_name': item.tags.Name, 'private_ip': item.private_ip_address, 'public_ip': item.public_ip_address, 'instance_type': item.instance_type, 'region': item.placement.availability_zone, 'image': item.image_id, 'keypair': item.key_name}] }}"
-=======
         ec2_instances_details: "{{ ec2_instances_details + [{'server_name': item.tags.Name, 
                                                           'private_ip': item.private_ip_address, 
                                                           'public_ip': item.public_ip_address | default('N/A'), 
@@ -45,7 +42,6 @@
                                                           'region': item.placement.availability_zone, 
                                                           'image': item.image_id, 
                                                           'keypair': item.key_name}] }}"
->>>>>>> v1.1
       loop: "{{ ec2.instances }}"
       when: ec2.instances | length > 0
 
