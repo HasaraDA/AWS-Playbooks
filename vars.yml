@@ -1,5 +1,5 @@
 user_email: hasara.dulanjana.16@gmail.com
-instance_name: AWSSGL001
+instance_name: AWSSGL005
 image: ami-06650ca7ed78ff6fa
 instance_type: t2.micro
 keypair: MyKeyPair
