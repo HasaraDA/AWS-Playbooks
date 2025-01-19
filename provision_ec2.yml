@@ -49,12 +49,5 @@
       debug:
         msg: |
           {% for instance in ec2_instances_details %}
-          ---
-          Server Name: {{ instance.server_name }}
-          Private IP: {{ instance.private_ip }}
-          Public IP: {{ instance.public_ip }}
-          Instance Type: {{ instance.instance_type }}
-          Region: {{ instance.region }}
-          Image: {{ instance.image }}
-          KeyPair: {{ instance.keypair }}
+          Server Name: {{ instance.server_name }} Private IP: {{ instance.private_ip }} Public IP: {{ instance.public_ip }} Instance Type: {{ instance.instance_type }} Region: {{ instance.region }} Image: {{ instance.image }} KeyPair: {{ instance.keypair }}
           {% endfor %}
